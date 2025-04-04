@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RelatorioADENOG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            font-size: 11px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        .print-only {
+            display: none;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: auto;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+        .header h1 {
+            font-size: 14px;
+            margin: 3px 0;
+        }
+        
+        .header h2 {
+            font-size: 13px;
+            margin: 3px 0;
+        }
+        
+        .header p {
+            font-size: 12px;
+            margin: 3px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 8px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 2px;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        h3 {
+            margin: 8px 0 4px 0;
+            font-size: 12px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        
+        table, th, td {
+            border: 1px solid black;
+        }
+        
+        th, td {
+            padding: 3px 4px;
+            text-align: left;
+            font-size: 10px;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        .valor-cell {
+            min-width: 80px;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 2px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+        
+        .total-row {
+            font-weight: bold;
+        }
+        
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .signature {
+            width: 45%;
+            text-align: center;
+        }
+        
+        .signature-line {
+            width: 100%;
+            border-top: 1px solid black;
+            margin-top: 15px;
+            margin-bottom: 3px;
+        }
+        
+        .signature p {
+            margin: 0;
+            font-size: 10px;
+        }
+        
+        .buttons {
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .btn {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 5px;
+            font-size: 10px;
+        }
+        
+        .btn:hover {
+            background-color: #45a049;
+        }
+        
+        @media print {
+            .no-print {
+                display: none;
+            }
+            
+            .print-only {
+                display: block;
+            }
+            
+            .container {
+                border: none;
+                padding: 0;
+            }
+            
+            body {
+                padding: 0;
+                font-size: 10px;
+            }
+            
+            @page {
+                margin: 1cm;
+                size: portrait;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <div style="width: 80px; margin-right: 5px;">
+                    <img src="WhatsApp Image 2025-03-08 at 16.05.24.jpeg" alt="Logo ADENOG" class="logo">
+                </div>
+                <div>
+                    <h1>IGREJA ASSEMBLEIA DE DEUS DO NORDESTE GOIANO - ADENOG</h1>
+                    <p>CNPJ: 24.856.361/0001-00</p>
+                    <h2>RELATÓRIO FINANCEIRO</h2>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="congregacao">CONGREGAÇÃO:</label>
+                <input type="text" id="congregacao" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label for="mes">DIZIMISTA REFERENTE AO MÊS DE:</label>
+                <div style="display: flex; gap: 5px; align-items: center;">
+                    <select id="mes" class="form-control" style="flex: 1;">
+                        <option value="">Selecione o mês</option>
+                        <option value="Janeiro">Janeiro</option>
+                        <option value="Fevereiro">Fevereiro</option>
+                        <option value="Março">Março</option>
+                        <option value="Abril">Abril</option>
+                        <option value="Maio">Maio</option>
+                        <option value="Junho">Junho</option>
+                        <option value="Julho">Julho</option>
+                        <option value="Agosto">Agosto</option>
+                        <option value="Setembro">Setembro</option>
+                        <option value="Outubro">Outubro</option>
+                        <option value="Novembro">Novembro</option>
+                        <option value="Dezembro">Dezembro</option>
+                    </select>
+                    <p style="margin: 0;">DE</p>
+                    <input type="text" id="ano" class="form-control" style="width: 80px;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tabela de Receitas -->
+        <h3>RECEITAS</h3>
+        <table id="tabela-receitas">
+            <thead>
+                <tr>
+                    <th style="width: 30px;">Nº</th>
+                    <th>RECEITAS</th>
+                    <th class="valor-cell">VALOR R$</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>01</td>
+                    <td>SALDO ANTERIOR</td>
+                    <td><input type="number" class="receita-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>02</td>
+                    <td>DÍZIMOS</td>
+                    <td><input type="number" class="receita-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>03</td>
+                    <td>OFERTAS NOS CULTOS</td>
+                    <td><input type="number" class="receita-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>04</td>
+                    <td>OFERTAS DESIGNADAS</td>
+                    <td><input type="number" class="receita-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>05</td>
+                    <td>DOAÇÕES</td>
+                    <td><input type="number" class="receita-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>06</td>
+                    <td>REEMBOLSO</td>
+                    <td><input type="number" class="receita-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>07</td>
+                    <td>TRANSFERÊNCIAS DAS CONGREGAÇÕES</td>
+                    <td><input type="number" class="receita-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>08</td>
+                    <td>TRANSFERÊNCIAS DAS REGIONAIS</td>
+                    <td><input type="number" class="receita-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="2" style="text-align: right;">TOTAL DE RECEITAS</td>
+                    <td id="total-receitas">R$ 0,00</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Tabela de Despesas -->
+        <h3>DESPESAS</h3>
+        <table id="tabela-despesas">
+            <thead>
+                <tr>
+                    <th style="width: 30px;">Nº</th>
+                    <th>DESPESAS</th>
+                    <th class="valor-cell">VALOR R$</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>01</td>
+                    <td>ÁGUA E ESGOTO</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>02</td>
+                    <td>AJUDA DE CUSTO</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>03</td>
+                    <td>ALUGUÉIS PASSIVOS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>04</td>
+                    <td>AUXÍLIOS DIVERSOS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>05</td>
+                    <td>COMBUSTÍVEIS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>06</td>
+                    <td>EMPRÉSTIMOS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>07</td>
+                    <td>ENERGIA ELÉTRICA</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>08</td>
+                    <td>EQUIPAMENTOS DE INFORMÁTICA</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>09</td>
+                    <td>EQUIPAMENTOS DE SOM</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>FESTIVIDADES E COMEMORAÇÕES</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>FRETES E PASSAGENS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>IMÓVEIS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>IMPOSTO E TAXAS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>INSS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>JUROS E MULTAS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>MANUTENÇÃO DE EQUIPAMENTOS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>MATERIAL DE CONSTRUÇÃO</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>MATERIAL DE EXPEDIENTE</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>MATERIAL DE LIMPEZA</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>MÓVEIS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>PREBENDAS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>PRESTAÇÃO DE SERVIÇOS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>REEMBOLSO</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>TELEFONE</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>TRANSFERÊNCIA PARA A REGIONAL</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>TRANSFERÊNCIA PARA A SEDE</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>27</td>
+                    <td>VEÍCULOS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>28</td>
+                    <td>VIAGENS E ESTADIAS</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr>
+                    <td>29</td>
+                    <td>ZELADORIA</td>
+                    <td><input type="number" class="despesa-valor" step="0.01" min="0"></td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="2" style="text-align: right;">TOTAL DE DESPESAS</td>
+                    <td id="total-despesas">R$ 0,00</td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="2" style="text-align: right;">SALDO</td>
+                    <td id="saldo-final">R$ 0,00</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Assinaturas -->
+        <div class="signatures">
+            <div class="signature">
+                <div class="signature-line"></div>
+                <p>TESOUREIRO</p>
+            </div>
+            <div class="signature">
+                <div class="signature-line"></div>
+                <p>PASTOR</p>
+            </div>
+        </div>
+        
+        <!-- Botões -->
+        <div class="buttons no-print">
+            <button class="btn" id="btn-calcular">Calcular Totais</button>
+            <button class="btn" id="btn-limpar">Limpar Formulário</button>
+            <button class="btn" id="btn-imprimir">Imprimir Relatório</button>
+            <button class="btn" id="btn-salvar">Salvar Dados</button>
+            <button class="btn" id="btn-carregar">Carregar Dados</button>
+        </div>
+    </div>
+
+    <script src="financiamento.js"></script>
+</body>
+</html>
