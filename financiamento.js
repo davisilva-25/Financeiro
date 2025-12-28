@@ -84,12 +84,37 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Função para salvar dados no localStorage
     function salvarDados() {
+        const congregacao = document.getElementById('congregacao').value;
+        const mes = document.getElementById('mes').value;
+        const ano = document.getElementById('ano').value;
+        
+        // Validar se os campos obrigatórios estão preenchidos
+        if (!congregacao || !mes || !ano) {
+            alert('Por favor, preencha a Congregação, Mês e Ano antes de salvar!');
+            return;
+        }
+        
+        // Criar chave única baseada em congregação, mês e ano
+        const chaveUnica = `relatorio_${congregacao}_${mes}_${ano}`;
+        
+        // Verificar se já existe um relatório com essa combinação
+        if (localStorage.getItem(chaveUnica)) {
+            const confirmar = confirm(
+                `Já existe um relatório salvo para ${congregacao} - ${mes}/${ano}.\n\n` +
+                'Deseja substituir o relatório existente?'
+            );
+            if (!confirmar) {
+                return;
+            }
+        }
+        
         const dados = {
-            congregacao: document.getElementById('congregacao').value,
-            mes: document.getElementById('mes').value,
-            ano: document.getElementById('ano').value,
+            congregacao: congregacao,
+            mes: mes,
+            ano: ano,
             receitas: [],
-            despesas: []
+            despesas: [],
+            dataSalvamento: new Date().toISOString()
         };
         
         // Salvar valores de receitas
@@ -109,9 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Salvar no localStorage
-        const dataHora = new Date().toISOString();
-        const chave = `relatorio_${document.getElementById('congregacao').value}_${dataHora}`;
-        localStorage.setItem(chave, JSON.stringify(dados));
+        localStorage.setItem(chaveUnica, JSON.stringify(dados));
         
         alert('Dados salvos com sucesso!');
     }
@@ -263,4 +286,5 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('total-receitas').textContent = formatarParaReal(0);
     document.getElementById('total-despesas').textContent = formatarParaReal(0);
     document.getElementById('saldo-final').textContent = formatarParaReal(0);
+
 });
